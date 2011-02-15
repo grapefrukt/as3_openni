@@ -27,21 +27,23 @@
 package org.as3kinect.events
 {
 	import flash.events.Event;
-	import flash.sampler.StackFrame;
+	import org.as3kinect.objects.SocketData;
 	
-		public class as3kinectWrapperEvent extends Event
+		public class SocketEvent extends Event
 		{
 			
-		public static const ON_DEPTH:String = "ON_DEPTH";
-		public static const ON_DEBUG:String = "ON_DEBUG";
-		public static const ON_SKEL:String = "ON_SKEL";
+		public static const CONNECT	:String = "as3kinectsocketevent_onconnect";
+		public static const DATA	:String = "as3kinectsocketevent_ondata";
+		public static const ERROR	:String = "as3kinectsocketevent_onerror";
 		
-		public var data:*;
+		private var _data:SocketData;
 		
-		public function as3kinectWrapperEvent(type:String, data:*)
+		public function SocketEvent(type:String, data:SocketData)
 		{
-			this.data = data;
+			_data = data;
 			super(type);
 		}
+		
+		public function get data():SocketData { return _data; }
 	}
 }

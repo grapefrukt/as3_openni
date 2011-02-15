@@ -24,32 +24,26 @@
  * either License.
  */
 
-
  package org.as3kinect {
-	 
- 	import flash.utils.ByteArray;
 	
 	public class as3kinect {
 
-		public static const SUCCESS:int = 0;
-		public static const ERROR:int = -1;
+		public static const SUCCESS			:int = 0;
+		public static const ERROR			:int = -1;
 
-		public static const SERVER_IP:String = "localhost";
-		public static const SOCKET_PORT:int = 6001;
-
-		public static const CAMERA_ID:int = 0;
-		public static const MOTOR_ID:int = 1;
-		public static const MIC_ID:int = 2;
+		public static const CAMERA_ID		:int = 0;
+		public static const MOTOR_ID		:int = 1;
+		public static const MIC_ID			:int = 2;
 		
-		public static const GET_DEPTH:int = 0;
-		public static const GET_RGB:int = 1;
-		public static const GET_SKEL:int = 2;
+		public static const GET_DEPTH		:int = 0;
+		public static const GET_RGB			:int = 1;
+		public static const GET_SKEL		:int = 2;
 		
-		public static const IMG_WIDTH:int = 640;
-		public static const IMG_HEIGHT:int = 480;
+		public static const IMG_WIDTH		:int = 640;
+		public static const IMG_HEIGHT		:int = 480;
 
-		public static const RAW_IMG_SIZE:int = IMG_WIDTH * IMG_HEIGHT * 4;
-		public static const DATA_IN_SIZE:int = 3 * 2 + 3 * 8;
-		public static const COMMAND_SIZE:int = 6;
+		public static const RAW_IMG_SIZE	:int = IMG_WIDTH * IMG_HEIGHT * 4;
+		public static const DATA_IN_SIZE	:int = 3 * 2 + 3 * 8;
+		public static const COMMAND_SIZE	:int = 6;
 	}
 }

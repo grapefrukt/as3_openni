@@ -24,25 +24,26 @@
  * either License.
  */
 
-package org.as3kinect {
+package org.as3kinect.managers {
 	
-	import org.as3kinect.as3kinect;
-	import org.as3kinect.as3kinectSocket;
-	
-	import flash.utils.ByteArray;
 	import flash.display.BitmapData;
+	import flash.events.EventDispatcher;
+	import flash.utils.ByteArray;
+	import org.as3kinect.as3kinect;
+	import org.as3kinect.Utilities;
+	import org.as3kinect.events.DepthVideoEvent;
 	
-	public class as3kinectDepth {
-		private var _socket:as3kinectSocket;
-		private var _data:ByteArray;
-		private var _depth_busy:Boolean;
-		public var bitmap:BitmapData;
+	public class DepthManager extends EventDispatcher {
+		private var _socket	:SocketManager;
+		private var _data	:ByteArray;
+		private var _busy	:Boolean;
+		private var _bitmap	:BitmapData;
 
-		public function as3kinectDepth(){
-			_socket = as3kinectSocket.instance;
+		public function DepthManager(socket:SocketManager){
+			_socket = socket;
 			_data = new ByteArray;
-			_depth_busy = false;
-			bitmap = new BitmapData(as3kinect.IMG_WIDTH, as3kinect.IMG_HEIGHT, false, 0xFF000000);
+			_busy = false;
+			_bitmap = new BitmapData(as3kinect.IMG_WIDTH, as3kinect.IMG_HEIGHT, false, 0);
 		}
 
 		/*
@@ -50,26 +51,25 @@ package org.as3kinect {
 		 * Note: We should lock the command while we are waiting for the data to avoid lag
 		 */
 		public function getBuffer():void {
-			if(!_depth_busy){
-				_depth_busy = true;
-				_data.clear();
-				_data.writeByte(as3kinect.CAMERA_ID);
-				_data.writeByte(as3kinect.GET_DEPTH);
-				_data.writeInt(0);
-				if(_socket.sendCommand(_data) != as3kinect.SUCCESS){
-					throw new Error('Data was not complete');
-				}
+			if (_busy) return;
+			_busy = true;
+			_data.clear();
+			_data.writeByte(as3kinect.CAMERA_ID);
+			_data.writeByte(as3kinect.GET_DEPTH);
+			_data.writeInt(0);
+			if(_socket.sendCommand(_data) != as3kinect.SUCCESS){
+				throw new Error('Data was not complete');
 			}
 		}
 		
-		public function set busy(flag:Boolean):void 
-		{
-			_depth_busy = flag;
+		public function process(data:ByteArray):void{
+			Utilities.byteArrayToBitmapData(data, _bitmap);
+			_busy = false;
+			dispatchEvent(new DepthVideoEvent(DepthVideoEvent.UPDATE_DEPTH));
 		}
 		
-		public function get busy():Boolean 
-		{
-			return _depth_busy;
-		}
+		public function get busy():Boolean { return _busy; }
+		public function get bitmap():BitmapData { return _bitmap; }
+
 	}
 }

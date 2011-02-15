@@ -27,63 +27,45 @@
  
 package org.as3kinect.objects {
 	
-	import org.as3kinect.objects.point3d;
+	import org.as3kinect.objects.Point3D;
 	import flash.utils.ByteArray;
 	
-	public class skeleton3d {
-		public var user_id		:	uint;
-		public var head			:	point3d;
-		public var neck			:	point3d;
-		public var l_shoulder	:	point3d;
-		public var l_elbow		:	point3d;
-		public var l_hand		:	point3d;
-		public var r_shoulder	:	point3d;
-		public var r_elbow		:	point3d;
-		public var r_hand		:	point3d;
-		public var torso		:	point3d;
-		public var l_hip		:	point3d;
-		public var l_knee		:	point3d;
-		public var l_foot		:	point3d;
-		public var r_hip		:	point3d;
-		public var r_knee		:	point3d;
-		public var r_foot		:	point3d;
+	public class Skeleton3D {
 		
-		public function skeleton3d():void {
-			this.user_id = 0;
-			this.head = new point3d();
-			this.neck = new  point3d();
-			this.l_shoulder = new point3d();
-			this.l_elbow = new  point3d();
-			this.l_hand = new  point3d();
-			this.r_shoulder = new point3d();
-			this.r_elbow = new  point3d();
-			this.r_hand = new  point3d();
-			this.torso = new  point3d();
-			this.l_hip = new  point3d();
-			this.l_knee = new  point3d();
-			this.l_foot = new  point3d();
-			this.r_hip = new  point3d();
-			this.r_knee = new  point3d();
-			this.r_foot = new  point3d();
-		}
+		public var userID		:uint;
+		public var head			:Point3D;
+		public var neck			:Point3D;
+		public var shoulderL	:Point3D;
+		public var elbowL		:Point3D;
+		public var handL		:Point3D;
+		public var shoulderR	:Point3D;
+		public var elbowR		:Point3D;
+		public var handR		:Point3D;
+		public var torso		:Point3D;
+		public var hipL			:Point3D;
+		public var kneeL		:Point3D;
+		public var footL		:Point3D;
+		public var hipR			:Point3D;
+		public var kneeR		:Point3D;
+		public var footR		:Point3D;
 		
-		public function updateFromBytes(ba:ByteArray){
-			this.user_id = ba.readInt();
-			this.head.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.neck.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.l_shoulder.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.l_elbow.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.l_hand.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.r_shoulder.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.r_elbow.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.r_hand.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.torso.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.l_hip.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.l_knee.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.l_foot.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.r_hip.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.r_knee.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
-			this.r_foot.updatePoint(ba.readFloat(), ba.readFloat(), ba.readFloat());
+		public function Skeleton3D(userId:uint):void {
+			userID    = userId;
+			head      = new Point3D();
+			neck      = new Point3D();
+			shoulderL = new Point3D();
+			elbowL    = new Point3D();
+			handL     = new Point3D();
+			shoulderR = new Point3D();
+			elbowR    = new Point3D();
+			handR     = new Point3D();
+			torso     = new Point3D();
+			hipL      = new Point3D();
+			kneeL     = new Point3D();
+			footL     = new Point3D();
+			hipR      = new Point3D();
+			kneeR     = new Point3D();
+			footR     = new Point3D();
 		}
 	}
 }

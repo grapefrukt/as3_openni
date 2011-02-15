@@ -27,21 +27,9 @@
  
 package org.as3kinect.objects {
 	
-	public class point3d {
-		public var x			:	Number;
-		public var y			:	Number;
-		public var z			:	Number;
-
-		public function point3d() {
-			this.x = 0;
-			this.y = 0;
-			this.z = 0;
-		}
-		
-		public function updatePoint(_x:Number, _y:Number, _z:Number):void {
-			this.x = _x;
-			this.y = _y;
-			this.z = _z;
-		}
+	public class Point3D {
+		public var x:	Number = 0;
+		public var y:	Number = 0;
+		public var z:	Number = 0;
 	}
 }

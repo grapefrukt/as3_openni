@@ -25,55 +25,50 @@
  */
 
  
- package org.as3kinect {
+ package org.as3kinect.managers {
 	 
-	import org.as3kinect.as3kinect;
-	import org.as3kinect.events.as3kinectSocketEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.ProgressEvent;
 	import flash.events.IOErrorEvent;
-	
+	import flash.events.ProgressEvent;
 	import flash.net.Socket;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
+	import org.as3kinect.as3kinect;
+	import org.as3kinect.events.SocketEvent;
+	import org.as3kinect.objects.SocketData;
+	
 
 	/**
 	 * as3kinectSocket class recieves Kinect data from the as3kinect driver.
 	 */
-	public class as3kinectSocket extends EventDispatcher
+	public class SocketManager extends EventDispatcher
 	{
-		private static var _instance:as3kinectSocket;
-		private static var _singleton_lock:Boolean = false;
+	
+		private var _socket		:Socket;
+		private var _port		:Number;
 		
-		private var _first_byte:Number;
-		private var _second_byte:Number;
 		private var _packet_size:Number;
-		private var _socket:Socket;
-		private var _buffer:ByteArray;
-		private var _data_obj:Object;
-		private var _port:Number;
+		private var _data		:SocketData;
 
-		public function as3kinectSocket()
+		public function SocketManager()
 		{		
-			if ( !_singleton_lock ) throw new Error( 'Use as3kinectSocket.instance' );
 			_socket = new Socket();
-			_buffer = new ByteArray();
-			_data_obj = new Object();
-
+			_data = new SocketData;
+			
 			_socket.addEventListener(ProgressEvent.SOCKET_DATA, onSocketData);
 			_socket.addEventListener(IOErrorEvent.IO_ERROR, onSocketError);
 			_socket.addEventListener(Event.CONNECT, onSocketConnect);
 		}
 		
-		public function connect(host:String = 'localhost', port:uint = 6001):void
+		public function connect(host:String, port:uint):void
 		{
 			_port = port;
 			_packet_size = 0;
 			if (!this.connected) 
 				_socket.connect(host, port);
 			else
-				dispatchEvent(new as3kinectSocketEvent(as3kinectSocketEvent.ONCONNECT, null));
+				dispatchEvent(new SocketEvent(SocketEvent.CONNECT, null));
 		}
 		
 		public function get connected():Boolean
@@ -86,7 +81,9 @@
 			_socket.close();
 		}
 		
-		public function sendCommand(data:ByteArray):int{
+		public function sendCommand(data:ByteArray):int {
+			if (!connected) return as3kinect.ERROR;
+			
 			if(data.length == as3kinect.COMMAND_SIZE){
 				_socket.writeBytes(data, 0, as3kinect.COMMAND_SIZE);
 				_socket.flush();
@@ -102,45 +99,26 @@
 			if(_socket.bytesAvailable > 0) {
 				if(_packet_size == 0) {
 					_socket.endian = Endian.LITTLE_ENDIAN;
-					_first_byte = _socket.readByte();
-					_second_byte = _socket.readByte();
+					_data.firstByte = _socket.readByte();
+					_data.secondByte = _socket.readByte();
 					_packet_size = _socket.readInt();
 				}
 				if(_socket.bytesAvailable >= _packet_size && _packet_size != 0){
-					_socket.readBytes(_buffer, 0, _packet_size);
-					_buffer.endian = Endian.LITTLE_ENDIAN;
-					_buffer.position = 0;
-					_data_obj.first = _first_byte;
-					_data_obj.second = _second_byte;
-					_data_obj.buffer = _buffer;
+					_socket.readBytes(_data.buffer, 0, _packet_size);
+					_data.buffer.endian = Endian.LITTLE_ENDIAN;
+					_data.buffer.position = 0;
 					_packet_size = 0;
-					dispatchEvent(new as3kinectSocketEvent(as3kinectSocketEvent.ONDATA, _data_obj));
+					dispatchEvent(new SocketEvent(SocketEvent.DATA, _data));
 				}
 			}
 		}
 		
 		private function onSocketError(event:IOErrorEvent):void{
-			dispatchEvent(new as3kinectSocketEvent(as3kinectSocketEvent.ONERROR, null));
+			dispatchEvent(new SocketEvent(SocketEvent.ERROR, null));
 		}
 		
 		private function onSocketConnect(event:Event):void{
-			dispatchEvent(new as3kinectSocketEvent(as3kinectSocketEvent.ONCONNECT, null));
-		}
-
-		public function set instance(instance:as3kinectSocket):void 
-		{
-			throw new Error('as3kinectSocket.instance is read-only');
-		}
-		
-		public static function get instance():as3kinectSocket 
-		{
-			if ( _instance == null )
-			{
-				_singleton_lock = true;
-				_instance = new as3kinectSocket();
-				_singleton_lock = false;
-			}
-			return _instance;
+			dispatchEvent(new SocketEvent(SocketEvent.CONNECT, null));
 		}
 	}
 }
