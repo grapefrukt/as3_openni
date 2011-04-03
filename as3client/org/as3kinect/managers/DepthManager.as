@@ -29,7 +29,7 @@ package org.as3kinect.managers {
 	import flash.display.BitmapData;
 	import flash.events.EventDispatcher;
 	import flash.utils.ByteArray;
-	import org.as3kinect.as3kinect;
+	import org.as3kinect.AS3Kinect;
 	import org.as3kinect.Utilities;
 	import org.as3kinect.events.DepthVideoEvent;
 	
@@ -43,7 +43,7 @@ package org.as3kinect.managers {
 			_socket = socket;
 			_data = new ByteArray;
 			_busy = false;
-			_bitmap = new BitmapData(as3kinect.IMG_WIDTH, as3kinect.IMG_HEIGHT, false, 0);
+			_bitmap = new BitmapData(AS3Kinect.IMG_WIDTH, AS3Kinect.IMG_HEIGHT, false, 0);
 		}
 
 		/*
@@ -54,10 +54,10 @@ package org.as3kinect.managers {
 			if (_busy) return;
 			_busy = true;
 			_data.clear();
-			_data.writeByte(as3kinect.CAMERA_ID);
-			_data.writeByte(as3kinect.GET_DEPTH);
+			_data.writeByte(AS3Kinect.CAMERA_ID);
+			_data.writeByte(AS3Kinect.GET_DEPTH);
 			_data.writeInt(0);
-			if(_socket.sendCommand(_data) != as3kinect.SUCCESS){
+			if(_socket.sendCommand(_data) != AS3Kinect.SUCCESS){
 				throw new Error('Data was not complete');
 			}
 		}

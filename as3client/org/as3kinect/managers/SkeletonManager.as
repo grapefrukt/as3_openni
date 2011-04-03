@@ -29,7 +29,7 @@ package org.as3kinect.managers {
 	import flash.events.EventDispatcher;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
-	import org.as3kinect.as3kinect;
+	import org.as3kinect.AS3Kinect;
 	import org.as3kinect.events.SkeletonEvent;
 	import org.as3kinect.objects.Point3D;
 	import org.as3kinect.objects.Skeleton3D;
@@ -60,10 +60,10 @@ package org.as3kinect.managers {
 			
 			_busy = true;
 			_data.clear();
-			_data.writeByte(as3kinect.CAMERA_ID);
-			_data.writeByte(as3kinect.GET_SKEL);
+			_data.writeByte(AS3Kinect.CAMERA_ID);
+			_data.writeByte(AS3Kinect.GET_SKEL);
 			_data.writeInt(0);
-			if(_socket.sendCommand(_data) != as3kinect.SUCCESS){
+			if(_socket.sendCommand(_data) != AS3Kinect.SUCCESS){
 				throw new Error('Data was not complete');
 			}
 		}

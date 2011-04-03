@@ -34,13 +34,13 @@
 	import flash.net.Socket;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-	import org.as3kinect.as3kinect;
+	import org.as3kinect.AS3Kinect;
 	import org.as3kinect.events.SocketEvent;
 	import org.as3kinect.objects.SocketData;
 	
 
 	/**
-	 * as3kinectSocket class recieves Kinect data from the as3kinect driver.
+	 * SocketManager recieves Kinect data from the as3kinect driver.
 	 */
 	public class SocketManager extends EventDispatcher
 	{
@@ -82,15 +82,15 @@
 		}
 		
 		public function sendCommand(data:ByteArray):int {
-			if (!connected) return as3kinect.ERROR;
+			if (!connected) return AS3Kinect.ERROR;
 			
-			if(data.length == as3kinect.COMMAND_SIZE){
-				_socket.writeBytes(data, 0, as3kinect.COMMAND_SIZE);
+			if(data.length == AS3Kinect.COMMAND_SIZE){
+				_socket.writeBytes(data, 0, AS3Kinect.COMMAND_SIZE);
 				_socket.flush();
-				return as3kinect.SUCCESS;
+				return AS3Kinect.SUCCESS;
 			} else {
-				throw new Error( 'Incorrect data size (' + data.length + '). Expected: ' + as3kinect.COMMAND_SIZE);
-				return as3kinect.ERROR;
+				throw new Error( 'Incorrect data size (' + data.length + '). Expected: ' + AS3Kinect.COMMAND_SIZE);
+				return AS3Kinect.ERROR;
 			}
 		}
 		

@@ -29,14 +29,14 @@
 	import flash.events.EventDispatcher;
 	import flash.text.TextField;
 	import flash.utils.ByteArray;
-	import org.as3kinect.as3kinect;
+	import org.as3kinect.AS3Kinect;
 	import org.as3kinect.events.SocketEvent;
 	import org.as3kinect.managers.DepthManager;
 	import org.as3kinect.managers.SkeletonManager;
 	import org.as3kinect.managers.SocketManager;
 	
 	
-	public class as3kinectWrapper extends EventDispatcher {
+	public class AS3KinectWrapper extends EventDispatcher {
 
 		private var _socket		:SocketManager;
 		private var _console	:TextField;
@@ -46,7 +46,7 @@
 		private var _depth		:DepthManager;
 		private var _skeleton	:SkeletonManager;
 
-		public function as3kinectWrapper(server:String = "localhost", port:uint = 6001) {
+		public function AS3KinectWrapper(server:String = "localhost", port:uint = 6001) {
 			_socket = new SocketManager();
 			
 			_depth = new DepthManager(_socket);
@@ -88,7 +88,7 @@
 							_depth.process(event.data.buffer);
 						break;
 						case 1: //Video received
-							//dispatchEvent(new as3kinectWrapperEvent(as3kinectWrapperEvent.ON_DEPTH, event.data));
+							//dispatchEvent(new AS3KinectWrapperEvent(AS3KinectWrapperEvent.ON_DEPTH, event.data));
 						break;
 						case 2: //SKEL received
 							_skeleton.process(event.data.buffer);

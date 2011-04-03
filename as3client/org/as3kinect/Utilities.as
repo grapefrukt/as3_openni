@@ -26,7 +26,7 @@
 
 package org.as3kinect
 {
-	import org.as3kinect.as3kinect;
+	import org.as3kinect.AS3Kinect;
 	
 	import flash.display.BitmapData;
 	import flash.display.Stage;
@@ -45,7 +45,7 @@ package org.as3kinect
 	public class Utilities
 	{
 		
-		private static const RECT:Rectangle = new Rectangle(0, 0, as3kinect.IMG_WIDTH, as3kinect.IMG_HEIGHT);
+		private static const RECT:Rectangle = new Rectangle(0, 0, AS3Kinect.IMG_WIDTH, AS3Kinect.IMG_HEIGHT);
 		
 		/*
 		 * Draw ARGB from ByteArray to BitmapData object

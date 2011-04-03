@@ -26,7 +26,7 @@
 
  package org.as3kinect {
 	
-	public class as3kinect {
+	public class AS3Kinect {
 
 		public static const SUCCESS			:int = 0;
 		public static const ERROR			:int = -1;
